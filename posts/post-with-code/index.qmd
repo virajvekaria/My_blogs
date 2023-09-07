@@ -1,9 +1,9 @@
 ---
-title: "Post With Code"
-author: "Harlow Malloc"
-date: "2023-09-07"
-categories: [news, code, analysis]
+title: "Optimization algorithms"
+author: "Viraj Vekaria"
+date: "07-09-2023"
+categories: [Machine Learning]
 image: "image.jpg"
 ---
 
-This is a post with executable code.
+Test text
