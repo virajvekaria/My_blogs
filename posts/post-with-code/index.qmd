@@ -9,4 +9,4 @@ image: "image.jpg"
 Test test
 
 ```{python code}
-```{notebook} \code\sgd_momentum.ipynb
+```{notebook} code\sgd_momentum.ipynb
