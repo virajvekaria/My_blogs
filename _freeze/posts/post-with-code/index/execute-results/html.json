@@ -1,0 +1,11 @@
+{
+  "hash": "b1fc9bbaa9fbbd2027a4af66af6db38e",
+  "result": {
+    "markdown": "---\ntitle: \"Optimization algorithms\"\nauthor: \"Viraj Vekaria\"\ndate: \"07-09-2023\"\ncategories: [Machine Learning]\nimage: \"image.jpg\"\n---\n\nTest test\n\n\n```{embed}\n  path: code/sgd_momentum.ipynb\n```\n\n",
+    "supporting": [
+      "index_files\\figure-html"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}
