@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "docs/posts/optim/optim.html",
       "/docs/posts/SIREN/siren.html",
       "/posts/welcome/index.html",
       "/posts/post-with-code/index.html"
