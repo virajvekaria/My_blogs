@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.427">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Viraj Vekaria and Shreyans Jain">
+<meta name="dcterms.date" content="2024-01-11">
+
+<title>My blogs - Optimizers in Machine Learning</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">My blogs</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Optimizers in Machine Learning</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Machine Learning</div>
+    <div class="quarto-category">Optimization</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Viraj Vekaria and Shreyans Jain </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 11, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<p>In the optimization world, optimizers play a crucial role in improving machine learning models. They adjust the model’s settings to reduce the prediction errors, which are measured by the loss function.</p>
+<p>Optimizers come in two main types:</p>
+<p><strong>First-Order Optimizers:</strong> These <em>use partial derivative values</em> to guide the optimizer. They indicate if the loss is increasing or decreasing at a particular point, like a compass guiding the optimizer to minimize the loss.</p>
+<p><strong>Second-Order Optimizers:</strong> These go further by <em>considering both first-order and second-order derivatives</em>. Delving deeper into the curvature of the loss function, they can, in some cases, achieve more efficient optimization. This provides deeper insights into the shape of the loss function, making optimization more efficient.</p>
+<p>Choosing the right optimizer can make a significant difference in the training speed and performance of machine learning models. For example, Gradient Descent is a widely used first-order optimizer, while more complex tasks may require second-order optimizers like Limited-memory Broyden-Fletcher-Goldfarb-Shanno (L-BFGS).</p>
+<p>Selecting the right optimizer is crucial in machine learning model development, as each one has its strengths and weaknesses.</p>
+<p>A non-exhaustive list of first-order optimizers are:</p>
+<ul>
+<li>Gradient Descent</li>
+<li>Stochastic Gradient Descent</li>
+<li>Mini Batch Gradient Descent</li>
+<li>Momentum</li>
+<li>Nesterov Accelerated Gradient</li>
+<li>Adagrad</li>
+<li>Adadelta</li>
+<li>RMSprop</li>
+<li>Adam</li>
+<li>AdaMax</li>
+<li>Nadam</li>
+</ul>
+<p>In this blog, we shall be limiting our discussion to the following optimizers:</p>
+<ul>
+<li>Gradient Descent</li>
+<li>Stochastic Gradient Descent</li>
+<li>Mini Batch Gradient Descent</li>
+<li>Momentum</li>
+<li>Nesterov Accelerated Gradient</li>
+<li>RMSprop</li>
+<li>Adam.</li>
+</ul>
+<section id="gradient-descent-vanilla-gradient-descent" class="level2">
+<h2 class="anchored" data-anchor-id="gradient-descent-vanilla-gradient-descent">Gradient Descent (Vanilla Gradient Descent)</h2>
+<p>This optimizer takes steps proportional to the negative gradient of the function at the current point. Think of it as trying to find the lowest point in a valley by walking in the direction where the slope is steepest.</p>
+<p>In the vanilla gradient descent, all the training data is used to compute the gradient of the loss function w.r.t the parameters. So if we have 10000 datapoints, all of them undergo a forwards pass in a neural network and then the loss is computed. The loss is then backpropagated through the network to compute the gradients w.r.t the parameters. We will have 10000 forward passes and one backward pass in this case.</p>
+<p><em>Advantages:</em></p>
+<ul>
+<li><p>Deterministic Updates: Since the gradients are computed using all the training data, the updates to the parameters are deterministic. This means that the updates are not dependent on the order of the training data. This is a very desirable property as we want the model to converge to the same minima regardless of the order of the training data. This also results in a smooth convergence.</p></li>
+<li><p>Suitable for small datasets: Since this uses all the datapoints to calculate the gradients, this leads to a more stable convergence.</p></li>
+</ul>
+<p><em>Disadvantages:</em></p>
+<ul>
+<li>Resource Intensive: Since we use all the datapoints to calculate the gradients, all the values have to be stored in the memory. This can be a problem for large datasets.</li>
+</ul>
+</section>
+<section id="stochastic-gradient-descent" class="level2">
+<h2 class="anchored" data-anchor-id="stochastic-gradient-descent">Stochastic Gradient Descent</h2>
+<p>Instead of the entire dataset, SGD uses a single data point at each iteration to move towards the minima. So we will have 10000 forward passes and 10000 backward passes. This is because the gradients are calculated using only one datapoint, and hence the direction of the gradient is not very accurate. This leads to a very noisy convergence as shown.</p>
+<p><em>Advantages:</em></p>
+<ul>
+<li><em>Less Resource Intensive:</em> Since we use only one datapoint to calculate the gradients, we need to store only one datapoint in the memory. This is very useful for large datasets.</li>
+<li><em>Faster Convergence:</em> More frequent updates lead to quicker convergence as compared to vanilla gradient descent.</li>
+</ul>
+<p><em>Disadvantages:</em></p>
+<ul>
+<li><em>Noisy Convergence:</em> Since we use only one datapoint to calculate the gradients, the direction of the gradient is not very accurate. This leads to a very noisy convergence.</li>
+<li><em>Non-Deterministic Updates:</em> Since the gradients are calculated using only one datapoint, the updates to the parameters are not deterministic. This means that the updates are dependent on the order of the training data. This is not a very desirable property as we want the model to converge to the same minima regardless of the order of the training data. Sometimes it can also lead to non-convergence of the model.</li>
+</ul>
+</section>
+<section id="mini-batch-gradient-descent" class="level2">
+<h2 class="anchored" data-anchor-id="mini-batch-gradient-descent">Mini Batch Gradient Descent</h2>
+<p>A middle ground between SGD and Vanilla Gradient Descent, it uses batches of data points for each update. In Mini Batch Gradient Descent, we use a batch of datapoints to calculate the gradients. So for each epoch, we will have 10000/batch size forward passes and 1 backward pass.</p>
+<p><em>Advantages:</em></p>
+<ul>
+<li><em>Less Resource Intensive:</em> Since we use only a batch of datapoints to calculate the gradients, we need to store only a batch of datapoints in the memory. This is very useful for large datasets.</li>
+<li><em>Faster Convergence:</em> More frequent updates lead to quicker convergence as compared to vanilla gradient descent.</li>
+</ul>
+<ol start="3" type="1">
+<li>As compared to SGD, it has a more stable convergence as shown.</li>
+</ol>
+<p><em>Its Disadvantages:</em></p>
+<ul>
+<li><em>Noisy Convergence:</em> Since we use only a batch of datapoints to calculate the gradients, the direction of the gradient is not very accurate. This leads to a very noisy convergence as shown in Fig 1.</li>
+</ul>
+<p>We observed that SGD and Mini Batch Gradient Descent have a noisy convergence as compared to Vanilla Gradient Descent. This is because the direction of the gradient is not very accurate.</p>
+<p>What if we want a faster convergence? One way is to reduce the observed sharp edges in SGD and Mini Batch SGD. This can be done by using a momentum term. This is where Momentum comes in.</p>
+</section>
+<section id="momentum" class="level2">
+<h2 class="anchored" data-anchor-id="momentum">Momentum</h2>
+<p>Momentum’s Intuition is that it confidently speeds up the convergence by accumulating the gradient of the past steps. It is a method that helps accelerate SGD in the relevant direction and dampens oscillations as can be seen in Fig 1. It does this by adding a fraction of the update vector of the past time step to the current update vector. This fraction is called the momentum coefficient and is usually set to 0.9 or a similar value.</p>
+<p>It’s akin to a ball rolling down a hill, gathering speed – unlike standard SGD, which feels more step-by-step.</p>
+<p>This also gives us the intuition that if we have a very noisy convergence, we can use momentum to dampen the oscillations and get a smoother convergence. But it’s not all good. Momentum can also lead to overshooting of the minima and lots of to and fro oscillations.</p>
+<p>Another question that can arise is if the term momentum is actually related to physics? The answer is yes. The momentum term is actually related to the momentum term in physics.</p>
+<p>Inertia is the property of an object to resist changes in its state of motion. In optimization: Inertia is the property of an object to resist changes in its state of motion. The learning rate acts as the acceleration here and the force is the gradient. So we can see that the momentum term in SGD is actually related to the momentum term in physics.</p>
+<p><span class="math display">\[
+v_{t+1} = \mu \cdot v_t - \alpha \cdot \nabla J(\theta_t)
+\]</span></p>
+<p><span class="math display">\[
+\theta_{t+1} = \theta_t + v_{t+1}
+\]</span></p>
+</section>
+<section id="nesterov-accelerated-gradient" class="level2">
+<h2 class="anchored" data-anchor-id="nesterov-accelerated-gradient">Nesterov Accelerated Gradient:</h2>
+<p>While momentum only takes into account the previous gradients, NAG looks ahead and corrects direction, leading to better adjustements in the steps. The Math and the intuition behind it: In the regular momentum update, we first compute the gradient at the current position and then take a big jump in the direction of the accumulated gradient (momentum). For NAG instead of calculating the gradient at the current position, we calculate the gradient after the momentum update, this is the look ahead feature and gives a better approximation to the gradient in the next step.</p>
+<p><em>Initialization</em>:</p>
+<ul>
+<li>Set the initial parameters: <span class="math inline">\(\theta_0\)</span></li>
+<li>Set the learning rate: <span class="math inline">\(\eta\)</span></li>
+<li>Set the momentum parameter: <span class="math inline">\(\mu\)</span></li>
+</ul>
+<p><em>Nesterov Update Rule</em>:</p>
+<ul>
+<li>Compute the gradient of the loss function at the predicted future parameter values:</li>
+</ul>
+<p><span class="math display">\[
+\nabla L(\theta_t + \mu v_t)
+\]</span></p>
+<ul>
+<li>Update the velocity vector:</li>
+</ul>
+<p><span class="math display">\[
+v_{t+1} = \mu \cdot v_t - \eta \cdot \nabla L(\theta_t + \mu v_t)
+\]</span></p>
+<ul>
+<li>Update the parameters using the velocity:</li>
+</ul>
+<p><span class="math display">\[
+\theta_{t+1} = \theta_t + v_{t+1}
+\]</span></p>
+<p>Here,</p>
+<ul>
+<li><span class="math inline">\(\theta_t\)</span> represents the current parameter values at iteration (t).</li>
+<li><span class="math inline">\(\eta\)</span> is the learning rate, controlling the step size.</li>
+<li><span class="math inline">\(\mu\)</span> is the momentum parameter, which determines how much of the previous velocity to keep.</li>
+</ul>
+<p>Nesterov Accelerated Gradient has been shown to converge faster than the standard gradient descent in many cases, making it a popular choice for optimization in deep learning and other machine learning applications.</p>
+<p>Imagine hiking down a foggy mountain trail to reach a base camp quickly and safely. In this challenging setting, Standard Momentum is like a hiker who can only see the path directly in front of them due to the fog. They make decisions based on what’s immediately visible, risking overshooting or getting stuck when the path changes unexpectedly.</p>
+<p>In contrast, NAG is like a hiker who can anticipate the path slightly ahead despite the fog. They periodically assess the terrain in advance, enabling more informed choices and efficient progress.</p>
+<p><em>Advantages:</em></p>
+<ul>
+<li><p><em>Overshooting Reduction:</em> Consider a scenario where the current gradient points in a certain direction, but due to noise or complex curvature of the loss landscape, it may not be the best direction to move in the long term. Standard Momentum would keep accumulating velocity in the current direction, potentially overshooting the optimal solution. NAG anticipates that the parameters will move in the direction of the lookahead point, which allows it to “course-correct” by reducing the accumulated velocity in the original direction. This anticipatory adjustment helps in reducing overshooting.</p></li>
+<li><p><em>Noise Handling:</em> When gradients are noisy, they can cause erratic updates in standard Momentum. The lookahead mechanism of NAG dampens the impact of noisy gradients. By considering the gradient at the lookahead point, NAG effectively filters out some of the noise, resulting in more stable and reliable updates.</p></li>
+</ul>
+<p><em>Disadvantages:</em></p>
+<ul>
+<li><em>More computationally complex:</em> It requires an additional gradient computation at each iteration, which can be expensive for large models. Additional hyperparameter to tune: The momentum parameter needs to be tuned in addition to the learning rate <span class="math inline">\(\eta\)</span>.</li>
+</ul>
+</section>
+<section id="adagrad" class="level2">
+<h2 class="anchored" data-anchor-id="adagrad">Adagrad</h2>
+<p>Adagrad is an optimization algorithm that adapts the learning rate for each parameter during training, allowing for more effective updates. It is also observed that Adagrad is particularly good for sparse distributions of data.</p>
+<p><em>Mathematical Initialization:</em></p>
+<ul>
+<li>Set the initial parameters: <span class="math inline">\(\theta_0\)</span></li>
+<li>Define the learning rate: <span class="math inline">\(\eta\)</span></li>
+</ul>
+<p><em>Adagrad Update Rule:</em></p>
+<ul>
+<li><p>Compute the gradient of the loss function: <span class="math inline">\(\nabla L(\theta_t)\)</span></p></li>
+<li><p>Adapt the learning rate for each parameter based on the historical gradient information:</p></li>
+</ul>
+<p><span class="math display">\[
+\text{Adapted Learning Rate for Parameter, } i: \frac{\eta}{\sqrt{G_{ii} +\epsilon}}
+\]</span></p>
+<p>Here, <span class="math inline">\(G_{ii}\)</span> represents the sum of the squares of historical gradients for parameter i, and <span class="math inline">\(\epsilon\)</span> is a small constant to prevent division by zero.</p>
+<ul>
+<li>Update the parameters:</li>
+</ul>
+<p><span class="math display">\[
+\theta_{t+1} = \theta_t - i \cdot \nabla L(\theta_t)
+\]</span></p>
+<p><em>Advantages:</em></p>
+<ul>
+<li><em>Learning Rate Adaptation:</em> Adagrad dynamically adjusts the learning rate for each parameter, scaling it inversely with the square root of the sum of past squared gradients. This adaptability allows Adagrad to allocate larger learning rates to parameters with infrequent updates and smaller learning rates to parameters with frequent updates. As a result, it can effectively handle different convergence rates across parameters.</li>
+<li><em>No Manual Learning Rate Tuning:</em> Adagrad eliminates the need to manually tune the learning rate, which can be challenging to get right in practice.</li>
+</ul>
+<p><em>Disadvantages:</em></p>
+<ul>
+<li><em>Accumulation of Gradients:</em> The denominator starts accumulating squares, which can lead to a very small learning rate and effectively stop the learning process.</li>
+<li><em>Memory Intensive:</em> Adagrad accumulates the squares of the gradients in the denominator, which can become very large for large models and lead to memory issues.</li>
+</ul>
+<p><strong>Note:</strong> Although it can correct learning rate according to the need to a good extent, a very poor choice of learning rate can still lead to a bad convergence.</p>
+</section>
+<section id="rmsprop" class="level2">
+<h2 class="anchored" data-anchor-id="rmsprop">RMSProp</h2>
+<p>RMSProp is an optimization algorithm that builds upon the Adagrad method by addressing some of its limitations. It adapts the learning rate for each parameter during training, offering more stable and efficient updates.</p>
+<p><em>Initialization:</em></p>
+<ul>
+<li>Set the initial parameters: <span class="math inline">\(\theta_0\)</span></li>
+<li>Define the learning rate: <span class="math inline">\(\eta\)</span></li>
+<li>Specify the decay parameter: <span class="math inline">\(\rho\)</span> (typically close to 1)</li>
+</ul>
+<p><em>RMSProp Update Rule:</em></p>
+<ul>
+<li>Compute the gradient of the loss function: <span class="math inline">\(\nabla L(\theta_t)\)</span></li>
+<li>Calculate the exponentially moving average of the squared gradients for each parameter:</li>
+</ul>
+<p><span class="math display">\[
+E[G_{ii}] = \rho E[G_{ii}] + (1 - \rho)(\nabla L(\theta_t))^2
+\]</span></p>
+<p>Here, <span class="math inline">\(E[G_{ii}]\)</span> represents the exponentially moving average of the squared gradients for parameter i.</p>
+<ul>
+<li>Adapt the learning rate for each parameter:</li>
+</ul>
+<p><span class="math display">\[
+\text{Adapted Learning Rate for Parameter, } i: \frac{\eta}{\sqrt{E[G_{ii}] + \epsilon}}
+\]</span></p>
+<ul>
+<li>Update the parameters:</li>
+</ul>
+<p><span class="math display">\[
+\theta_{t+1} = \theta_t - i \cdot \nabla L(\theta_t)
+\]</span></p>
+<p><em>Advantages:</em></p>
+<ul>
+<li><p><em>Stability:</em> RMSProp addresses the issue of rapidly decreasing learning rates by introducing an exponentially moving average for the squared gradients. This results in a more stable and adaptive learning rate.</p></li>
+<li><p><em>No Manual Learning Rate Tuning:</em> Similar to Adagrad, RMSProp eliminates the need for manual tuning of the learning rate, making it a convenient choice for practical applications.</p></li>
+</ul>
+<p><em>Disadvantages:</em></p>
+<ul>
+<li><p><em>Memory Intensive:</em> RMSProp still accumulates historical gradient information, which can be memory-intensive for large models, though to a lesser extent than Adagrad.</p></li>
+<li><p><em>Hyperparameter Tuning:</em> RMSProp introduces the decay parameter , which needs to be tuned along with the learning rate. Finding the right values for these hyperparameters can be a trial-and-error process.</p></li>
+</ul>
+<p>In summary, RMSProp overcomes some of the issues of Adagrad, particularly the problem of a decreasing learning rate. It provides more stable training and is often used in deep learning models. However, it still requires careful tuning of hyperparameters and can be memory-intensive for very large models.</p>
+</section>
+<section id="adam-adaptive-moment-estimation" class="level2">
+<h2 class="anchored" data-anchor-id="adam-adaptive-moment-estimation">Adam (Adaptive Moment Estimation)</h2>
+<p>Adam is a popular optimization algorithm that combines elements of both RMSProp and momentum. It adapts the learning rate and keeps track of past gradients’ moving averages, providing efficient and stable updates.</p>
+<p><em>Initialization:</em></p>
+<ul>
+<li>Set the initial parameters: <span class="math inline">\(\theta_0\)</span></li>
+<li>Define the learning rate: <span class="math inline">\(\eta\)</span></li>
+<li>Specify the decay parameters: <span class="math inline">\(\beta_1\)</span> (typically close to 1) and <span class="math inline">\(\beta_2\)</span> (typically close to 1)</li>
+</ul>
+<p><em>Adam Update Rule:</em></p>
+<ul>
+<li><p>Compute the gradient of the loss function: <span class="math inline">\(\nabla L(\theta_t)\)</span></p></li>
+<li><p>Calculate the first and second moments (moving averages) of the gradients for each parameter:</p></li>
+</ul>
+<p><span class="math display">\[
+m_t = \beta_1 m_{t-1} + (1 - \beta_1) \nabla L(\theta_t)
+\]</span> <span class="math display">\[
+v_t = \beta_2 v_{t-1} + (1 - \beta_2)(\nabla L(\theta_t))^2
+\]</span></p>
+<p>Here, <span class="math inline">\(m_t\)</span> and <span class="math inline">\(v_t\)</span> represent the first and second moments of the gradients, respectively.</p>
+<ul>
+<li>Correct the moments for bias:</li>
+</ul>
+<p><span class="math display">\[
+\hat{m}_t = \frac{m_t}{1 - \beta_1^t}
+\]</span> <span class="math display">\[
+\hat{v}_t = \frac{v_t}{1 - \beta_2^t}
+\]</span></p>
+<ul>
+<li>Adapt the learning rate for each parameter:</li>
+</ul>
+<p><span class="math display">\[
+\text{Adapted Learning Rate for Parameter, } i: \frac{\eta}{(\hat{v}_t)^\frac{1}{2} + \epsilon}
+\]</span></p>
+<p>Here, <span class="math inline">\(\epsilon\)</span> is a small constant to prevent division by zero.</p>
+<ul>
+<li>Update the parameters:</li>
+</ul>
+<p><span class="math display">\[
+\theta_{t+1} = \theta_t - i \cdot \hat{m}_t
+\]</span></p>
+<p><em>Advantages</em>:</p>
+<ul>
+<li><p><em>Efficiency</em>: Adam combines the benefits of adaptive learning rates (like RMSProp) and momentum. It effectively handles different convergence rates for parameters and speeds up convergence.</p></li>
+<li><p><em>Stability</em>: The correction for bias in the moments ensures that the algorithm remains stable even during the initial iterations.</p></li>
+</ul>
+<p><em>Disadvantages</em>:</p>
+<ul>
+<li><p><em>Hyperparameter Sensitivity</em>: Like RMSProp, Adam introduces decay parameters <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span>, which require tuning for optimal performance. Incorrect settings can affect convergence.</p></li>
+<li><p><em>Memory Usage</em>: Adam accumulates moments for each parameter, which can lead to increased memory usage, especially in deep learning models.</p></li>
+</ul>
+<p>Adam is widely used in deep learning due to its efficiency and stability, but it does require careful tuning of its hyperparameters for different tasks and models.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
