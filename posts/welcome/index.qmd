@@ -1,6 +1,6 @@
 ---
 title: "Welcome To My Blog"
-author: "Tristan O'Malley"
+author: "Viraj Vekaria"
 date: "2023-09-04"
 categories: [news]
 ---
